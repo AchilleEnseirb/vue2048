@@ -1,8 +1,5 @@
 name: Main Workflow
-on: 
-  push:
-    branches:
-      -lab9
+on: push
 
 env:
   BUILD_ARTIFACT_NAME: "package"
