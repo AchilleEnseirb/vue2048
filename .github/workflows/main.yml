@@ -1,9 +1,6 @@
 name: Main Workflow
 on: push
 jobs:
-  checkout:
-    runs-on: ubuntu-latest
-    
   build:
     runs-on: ubuntu-latest
     steps:
