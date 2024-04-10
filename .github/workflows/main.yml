@@ -1,5 +1,13 @@
 name: Main Workflow
-on: push
+on: 
+  push:
+    branches:
+      -lab9
+
+env:
+  BUILD_ARTIFACT_NAME: "package"
+
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -9,7 +17,7 @@ jobs:
       - name: Setup Actions
         uses: pnpm/action-setup@v3
         with:
-            version: 8
+            version: latest
       - name: Setup Node
         uses: actions/setup-node@v4
       - name: Install & Build
