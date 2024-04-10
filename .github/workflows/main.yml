@@ -1,0 +1,26 @@
+name: Main Workflow
+on: push
+jobs:
+  checkout:
+    runs-on: ubuntu-latest
+    
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Actions
+        uses: actions/setup-actions@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4
+      - name: Install & Build
+        run: |
+          pnpm install
+          pnpm run build
+      - name: Archive production artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: Archive creation
+          path: |
+            dist
+            !dist/**/*.md
