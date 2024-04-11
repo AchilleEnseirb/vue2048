@@ -28,7 +28,7 @@ jobs:
             dist
             !dist/**/*.md
   test:
-    if: ${{ github.event_name == 'pull_request' }}
+
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -52,14 +52,12 @@ jobs:
       - name: Unit Tests
         run: pnpm test
   deployprod:
-    if: ${{ github.event_name == 'workflow_dispatch'}}
     needs: build
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - run: pnpm dlx @azure/static-web-apps-cli deploy ./dist --app-name stapp-vue2048-prod --env=production
   deployqa:
-    if: ${{ github.event_name == 'workflow_dispatch'}}
     needs: build
     runs-on: ubuntu-latest
     steps:
