@@ -1,0 +1,68 @@
+name: Main Workflow
+on: [push, pull_request, workflow_dispatch]
+
+env:
+  BUILD_ARTIFACT_NAME: "package"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Actions
+        uses: pnpm/action-setup@v3
+        with:
+            version: latest
+      - name: Setup Node
+        uses: actions/setup-node@v4
+      - name: Install & Build
+        run: |
+          pnpm install
+          pnpm run build
+      - name: Archive production artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: $BUILD_ARTIFACT_NAME
+          path: |
+            dist
+            !dist/**/*.md
+  test:
+    if: ${{ github.event_name == 'pull_request' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Actions
+        uses: pnpm/action-setup@v3
+        with:
+            version: latest
+      - name: Setup Node
+        uses: actions/setup-node@v4
+      - name: Install & Build
+        run: |
+          pnpm install
+          pnpm run build
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Type Check
+        run: pnpm type-check
+      - name: Lint Check
+        run: pnpm lint
+      - name: Unit Tests
+        run: pnpm test
+  deployprod:
+    if: ${{ github.event_name == 'workflow_dispatch'}}
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: pnpm dlx @azure/static-web-apps-cli deploy ./dist --app-name stapp-vue2048-prod --env=production
+  deployqa:
+    if: ${{ github.event_name == 'workflow_dispatch'}}
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: pnpm dlx @azure/static-web-apps-cli deploy ./dist --app-name stapp-vue2048-qa --env=production
+      
