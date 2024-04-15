@@ -13,8 +13,6 @@ jobs:
               version: latest
         - name: Setup Node
           uses: actions/setup-node@v4
-        - name: setup vue-tsc
-          uses: keita-hino/vue-tsc-action@main
         - name: Install & Build
           run: |
             pnpm install
