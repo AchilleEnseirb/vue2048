@@ -5,9 +5,9 @@ jobs:
     deployprod:
         runs-on: ubuntu-latest
         steps:
-          - name: init
-            uses: | 
-                actions/checkout@v4
-                pnpm/action-setup@v3
+          - name: initcode
+            uses: actions/checkout@v4
+          - name: initactions
+            uses:  pnpm/action-setup@v3
           - name: deploy
             run: pnpm dlx @azure/static-web-apps-cli deploy ./dist --app-name stapp-vue2048-prod --env=production
