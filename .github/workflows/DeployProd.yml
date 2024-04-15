@@ -1,11 +1,5 @@
 name: Deploy Prod Workflow
-on:
-  workflow_dispatch:
-    inputs:
-      param_name:
-        description: 'Description de votre paramètre'
-        required: true
-        default: 'valeur_par_défaut'
+on: workflow_dispatch
 
 jobs:
     deployprod:
