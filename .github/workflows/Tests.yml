@@ -20,7 +20,9 @@ jobs:
         - name: Checkout
           uses: actions/checkout@v4
         - name: Type Check
-          run: pnpm type-check
+          run: |
+            pnpm install vue-tsc
+            pnpm type-check
         - name: Lint Check
           run: pnpm lint
         - name: Unit Tests
