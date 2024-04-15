@@ -1,0 +1,29 @@
+name: Test Workflow
+on: pull_request
+
+jobs: 
+    test:
+        runs-on: ubuntu-latest
+        steps:
+        - name: Checkout
+          uses: actions/checkout@v4
+        - name: Setup Actions
+          uses: pnpm/action-setup@v3
+          with:
+              version: latest
+        - name: Setup Node
+          uses: actions/setup-node@v4
+        - name: Install & Build
+          run: |
+            pnpm install
+            pnpm run build
+        - name: Checkout
+          uses: actions/checkout@v4
+        - name: Type Check
+          run: |
+            pnpm install vue-tsc
+            pnpm type-check
+        - name: Lint Check
+          run: pnpm lint
+        - name: Unit Tests
+          run: pnpm test

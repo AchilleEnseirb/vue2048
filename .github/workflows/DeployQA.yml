@@ -1,0 +1,14 @@
+name: Deploy QA Workflow
+on: workflow_dispatch
+
+jobs:
+    deployQA:
+        runs-on: ubuntu-latest
+        steps:
+            - name: initcode
+              uses: actions/checkout@v4
+            - name: initactions
+              uses:  pnpm/action-setup@v3
+
+            - name: deployqa
+              run: pnpm dlx @azure/static-web-apps-cli deploy ./dist --app-name stapp-vue2048-qa --env=production
