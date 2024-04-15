@@ -8,6 +8,8 @@ jobs:
           - name: initcode
             uses: actions/checkout@v4
           - name: initactions
-            uses:  pnpm/action-setup@v3
+            uses: pnpm/action-setup@v3
+            with:
+                version: latest
           - name: deploy
             run: pnpm dlx @azure/static-web-apps-cli deploy ./dist --app-name stapp-vue2048-prod --env=production
