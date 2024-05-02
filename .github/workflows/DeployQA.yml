@@ -5,11 +5,20 @@ jobs:
     deployQA:
         runs-on: ubuntu-latest
         steps:
+            - name: Check file existence
+              id: check_files
+              uses: andstor/file-existence-action@v3
+              with:
+                files: "dist"
             - name: initcode
               uses: actions/checkout@v4
             - name: init actions
               uses: pnpm/action-setup@v3
               with: 
                 version: latest
+            - name: checkdist
+              if: steps.check_files.outputs.files_exists == 'false'
+              run: mkdir dist
             - name: deployqa
+              if: steps.check_files.outputs.files_exists == 'true'
               run: pnpm dlx @azure/static-web-apps-cli deploy ./dist --app-name stapp-vue2048-qa --env=production
